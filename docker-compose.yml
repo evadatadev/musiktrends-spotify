@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   musik-app:
-    build: .
+    build: 
+      context: .
+      dockerfile: Dockerfile
     container_name: musik-app
     ports:
       - "8888:8888"
