@@ -1,9 +1,26 @@
+# Datenverarbeitung
 pandas
 numpy
-plotly
-jupyter
-requests
-python-dotenv
+scipy
+
+# Visualisierung
+matplotlib
+seaborn
+
+# Interaktive Charts (Dashboard)
+plotly 
+
+# Machine Learning und Skalierung
 scikit-learn
+
+# Laden des Kaggle Datensatzes
 kagglehub
 
+# API & Hilfsmittel
+spotipy
+python-dotenv
+requests
+tqdm
+
+# Entwicklung
+jupyter 
