@@ -3,17 +3,15 @@
 
 ---
 
-## 📅 Roadmap
-- [in Arbeit ...] Woche 1: CSV‑Daten + Exploration  
+## 📅 Roadmap (Aktueller Stand des Projekts)
+- [x] Woche 1: CSV‑Daten + Exploration  
 - [ ] Woche 2: API‑Daten + Modellierung  
 - [ ] Woche 3: Dashboard + Storytelling
 
 ---
 
 ## 📌 Projektübersicht
-Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten.  
-Dazu werden **Charts‑CSVs**, **Spotify Web API‑Metadaten**, **Feature Engineering**, **Forecast‑Modelle** und ein **Plotly‑Dashboard** kombiniert.  
-Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projekt**, das Daten, KI und Storytelling verbindet.
+Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten. Dazu werden **Charts‑CSVs**, **Spotify Web API‑Metadaten**, **Feature Engineering**, **Forecast‑Modelle** und ein **Plotly‑Dashboard** kombiniert. Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projekt**, das Daten, KI und Storytelling verbindet.
 
 ---
 
@@ -21,8 +19,8 @@ Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projek
 - Analyse von Spotify‑Charts (CSV‑Daten)
 - Abruf von Metadaten über die Spotify Web API (Genres, Popularität, Follower)
 - Feature Engineering (Genre Popularity Index, Artist Growth Rate, Seasonality Score)
-- Zeitreihen‑Forecasts (ARIMA, Prophet, LSTM)
-- Klassifikation von „Rising Artists“
+- Zeitreihen‑Forecasts (Prophet)
+- Klassifikation von „Rising Artists“ (Random Forest)
 - Interaktives Dashboard (Plotly Dash)
 - Automatisch generierte Trendberichte (LLM‑Integration)
 - Vollständig reproduzierbar via Docker
@@ -33,12 +31,14 @@ Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projek
 ```
 musiktrends-spotify/
 │
-├── data/          # Rohdaten, CSVs, API-Downloads (aktuell nicht verfügbar)
+├── data/          # Rohdaten, CSVs, API-Downloads (aktuell noch nicht verfügbar)
 ├── notebooks/     # Jupyter Notebooks für Exploration & Modellierung
 ├── src/           # Python-Module (Pipelines, Modelle, Utils)
 ├── docs/          # Dokumentation, Diagramme, Berichte
 ├── requirements.txt
 ├── Dockerfile
+└── docker-compose.yml
+└── LICENSE
 └── README.md
 ```
 
@@ -46,8 +46,16 @@ musiktrends-spotify/
 
 ## 🗂️ Datenquellen
 ### **Spotify Charts (CSV)**
-- Daily & Weekly Top 200  
-- Direkt importierbar in Pandas
+- Quelle: Spotify Weekly Top Songs Global (https://charts.spotify.com/charts/view/regional-global-weekly)
+- Zeitraum:  2024–2025
+- Frequenz: Weekly (TOP 200)
+- Felder: chart_week, rank,	uri, artist_names, track_name, peak_rank, previous_rank, weeks_on_chart, streams
+- Preprocessing:
+    - Konsolidierung der Rohdaten: Alle wöchentlichen CSV-Dateien werden zu einer einzigen Tabelle zusammengeführt (Concatenation).
+    - Standardisierung der Struktur: Spaltennamen werden vereinheitlicht, Datentypen harmonisiert und fehlende Werte behandelt.
+    - Feature-Selektion: Es werden nur die für die Analyse relevanten Spalten beibehalten, siehe Felder.
+    - Bereinigung: Daten wurden auf Duplikate, fehlerhafte Einträge und nicht benötigte Metadaten geprüft.
+    - Export: Speicherung der bereinigten Gesamttabelle unter "data/processed" als Grundlage für die weitere Analyse.
 
 ### **Spotify Web API**
 - Künstler‑Metadaten  
@@ -59,14 +67,10 @@ musiktrends-spotify/
 
 ## 🧠 Modellierung
 ### **Zeitreihen‑Forecasts**
-- ARIMA  
 - Prophet  
-- LSTM  
-
+ 
 ### **Klassifikation**
 - Random Forest  
-- Logistic Regression  
-- Gradient Boosting  
 
 ---
 
@@ -80,14 +84,39 @@ Das interaktive Dashboard zeigt:
 ---
 
 ## 🐳 Docker Setup
-### Build
+### Container starten & bauen
 ```
-docker build -t spotify-trends .
+docker compose up --build
 ```
 
 ### Run (Jupyter Notebook)
+Sobald der Container läuft, findet sich das Projekt unter:
 ```
-docker run -p 8888:8888 spotify-trends
+https://localhost:8888
+```
+## 🐳 Docker Setup
+
+Dieses Projekt nutzt Docker, um eine konsistente Entwicklungsumgebung bereitzustellen. Dank **Docker Compose** werden alle Code-Änderungen auf deinem lokalen Rechner (Desktop) sofort mit dem Container synchronisiert, sodass du direkt im Browser arbeiten kannst.
+
+### Voraussetzungen
+* [Docker Desktop](https://www.docker.com/products/docker-desktop/) installiert und gestartet.
+
+### Container bauen & starten
+
+Öffne dein Terminal im Projektordner und führe folgenden Befehl aus. Dies installiert alle Abhängigkeiten aus der `requirements.txt`:
+```
+docker compose up --build
+```
+### Im Browser arbeiten 
+
+Sobald der Container läuft, kannst du Jupyter Notebook unter folgender Adresse öffnen:
+👉 [http://localhost:8888](http://localhost:8888)
+
+### Beenden 
+
+Um den Container zu stoppen, drücke Strg + C im Terminal oder nutze:
+```
+docker compose down
 ```
 
 ---
