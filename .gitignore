@@ -1,18 +1,29 @@
-__pycache__/
-*.py[cod]
-*.class
-venv/
-.env
-.ipynb_checkpoints
-*/.ipynb_checkpoints/*
-data/
-!data/.gitkeep
-.dockerignore
+# System-Dateien
 .DS_Store
 Thumbs.db
+.Trash-0/
+
+# Python & Umgebung
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.env
+
+# IDEs (VS Code, PyCharm)
 .vscode/
 .idea/
 
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/*
+
+# Daten-Management
+data/
+!data/.gitkeep
+
+# Docker
+.dockerignore
 
 
 
