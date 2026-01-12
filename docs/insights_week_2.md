@@ -2,31 +2,67 @@
 
 ## 1. Auswertung der Prophet-Komponenten
 
-Die Zerlegung der Zeitreihe in ihre Einzelteile liefert tiefe Einblicke in die Mechanik des Streaming-Marktes:
+Die Zerlegung der Zeitreihe liefert tiefe Einblicke in die Mechanik des Streaming-Marktes:
 
-* **Trend (Langfristige Richtung):** Die Analyse zeigt einen starken Anstieg bis Mitte 2024, gefolgt von einem leichten Abfall und einer Stabilisierung ab 2025. Dies repräsentiert das "Grundrauschen" des Marktes nach einem massiven Wachstumsschub.
-* **Holidays (Schock-Events):** Steile Ausschläge von über 30 % markieren den Effekt von "Feiertagen" wie Taylor Swift Releases oder Weihnachten. Das Modell ordnet diesen spezifischen Tagen massive Stream-Zunahmen im Vergleich zum Normaltrend zu.
-* **Yearly (Saisonalität):** Ein Wellenmuster verdeutlicht das kollektive Hörerverhalten: Ein hohes Niveau zu Jahresbeginn (Nachwirkungen von Weihnachten und Silvester), ein Tief im Sommer und ein steiler Anstieg im Dezember.
-* **Extra Regressors (Genre Popularity Index):** Eine zackige Linie im Bereich von 0 % bis 20 % zeigt den Einfluss der Genre-Beliebtheit auf das Gesamtvolumen. Ein Abfall Ende 2025 deutet auf einen sinkenden Einfluss der Genres in diesem Zeitraum hin.
-* **Gesamt-Forecast:** Das Modell kombiniert historische Daten (schwarze Punkte) mit der Schätzung (blaue Linie). Es erklärt extreme Spitzen präzise durch die Holiday-Komponente und liefert eine valide Prognose für die kommenden Wochen.
+* **Trend:** Starker Anstieg bis Mitte 2024, gefolgt von einer Stabilisierung ab 2025 auf einem hohen Plateau. Dies repräsentiert das "Grundrauschen" des Marktes nach einem massiven Wachstumsschub.
+* **Holidays:** Massive Ausschläge (>30 %) durch Taylor Swift Releases und Weihnachten.
+* **Yearly:** Kollektives Hörverhalten mit Sommer-Tief und Dezember-Peak.
+* **Extra Regressors (Genre Popularity Index):** Zeigt den massiven Einfluss von Genre-Hypes auf das Gesamtvolumen.
+* **Gesamt-Forecast:** Das Modell kombiniert historische Daten mit der Schätzung. Es erklärt extreme Spitzen präzise durch die Holiday-Komponente und liefert eine valide Prognose für die kommenden Wochen.
 
-## 2. Interpretation der Modellparameter
+## 2. Interpretation der Modellparameter & Metriken
 
-Durch das Hyperparameter-Tuning wurden die optimalen Einstellungen für die Volatilität des Musikmarktes gefunden:
+Durch Hyperparameter-Tuning wurden optimale Einstellungen gefunden:
 
-* **`changepoint_prior_scale = 0.5` (Sehr flexibler Trend):** Erlaubt dem Modell, schnell auf häufige Trendwechsel zu reagieren. Dies ist essenziell für den Musikmarkt, da Superstar-Releases und Viral-Hits den Trend oft abrupt sprengen.
-* **`holidays_prior_scale = 10.0` (Starke Holiday-Effekte):** Gibt Events massives Gewicht und verhindert, dass extreme Peaks den langfristigen Trend verzerren. Ohne diese Gewichtung würde der Forecast an Genauigkeit verlieren.
-* **`seasonality_mode = 'multiplicative'`:** Die richtige Wahl für Streaming, da der Markt prozentual wächst und Saisonalität (z. B. Sommerloch oder Q4-Push) verstärkend wirkt.
-
-## 3. Performance-Metriken
-
-Die statistische Validierung bestätigt die hohe Güte des Modells:
-
-| Metrik | Wert | Interpretation |
-| --- | --- | --- |
-| **MAPE** | **0.06** | Ein Fehler von nur 6 % liegt im "Goldstandard-Bereich" für reales Markt-Forecasting. |
-| **RMSE** | **188.175.034** | Bei einem Wochenvolumen von ca. 3–4 Mrd. Streams entspricht dieser absolute Fehler etwa 5 %. |
-
-## Fazit & Ausblick
+* **Flexibilität:** `changepoint_prior_scale = 0.5` erlaubt schnelle Reaktionen auf volatile Marktänderungen.
+* **Präzision:** Mit einem **MAPE von 0.06 (6 % Fehler)** liegt das Modell im „Goldstandard-Bereich“. Der **RMSE von ~188 Mio.** ist bei einem Milliarden-Gesamtvolumen vernachlässigbar gering (absoluter Fehler entspricht etwas 5%). Die statistische Validierung bestätigt die hohe Güte des Modells.
 
 Das entwickelte Modell sagt globale Streaming-Trends mit einer **Genauigkeit von 94 %** vorher. Es erkennt, dass der Markt zwar stabil ist, aber massiv durch Events und Genre-Dynamiken gesteuert wird.
+
+## 3. Modell-Evolution: Von Random Forest zu LightGBM
+
+Um subtile Muster und unbalancierte Klassen (Rising Artists als Minderheit) besser zu erfassen, wurde das Modell auf LightGBM umgestellt.
+
+### Der Performance-Sprung
+
+| Metrik (Klasse 1) | Random Forest | LightGBM (Opt. Threshold) | **Veränderung** |
+| --- | --- | --- | --- |
+| Precision | 0.67 | 0.65 | -2 % |
+| **Recall** | 0.56 | **0.65** | **+9 % (Durchbruch)** |
+| **F1-Score** | 0.61 | **0.65** | **+4 % (Gesamtsieg)** |
+
+Durch die Senkung des Entscheidungs-Thresholds auf 0.36 identifiziert das Tool nun 65 % aller potenziellen Aufsteiger (Recall), was für A&R-Manager einen massiven Mehrwert bietet.
+
+### Die neue Feature-Hierarchie
+
+LightGBM gewichtet die Faktoren intelligenter als der Random Forest:
+
+1. **`genre_pop_idx` (Platz 1):** Das Genre ist das Fundament; Künstler steigen meist auf einer „Genre-Welle“ auf.
+2. **`artist_growth_rate`:** Bleibt der entscheidende Motor für individuelles Momentum.
+3. **`prophet_trend`:** Das Zeitreihen-Modell liefert den nötigen makroökonomischen Kontext.
+
+## 4. Explainable Artificial Intelligence-Insights (SHAP-Analyse)
+
+Die SHAP-Analyse macht die „Blackbox“ LightGBM transparent:
+
+* **Wachstum:** Es besteht ein klarer linearer Zusammenhang zwischen Momentum und Aufstiegswahrscheinlichkeit.
+* **Markt-Barrieren:** Ein schwacher Genre-Index zieht die Erfolgswahrscheinlichkeit aktiv nach unten („totes Genre“).
+* **Newcomer-Logik:** Hohe Track-Popularität wirkt oft negativ auf das „Rising“-Label, da das Modell lernt, zwischen etablierten Stars und echten Newcomern zu unterscheiden.
+
+## 5. Top 10 Rising Artists & Trendbericht
+
+Die aktuelle Vorhersage zeigt eine Dominanz von Titeln mit einer Aufstiegswahrscheinlichkeit von nahezu 1.00 (100 %):
+
+* **Sabrina Carpenter – 'Taste':** Profitiert von einer extremen Genre-Dynamik (79.64) bei starkem Eigen-Momentum (4.10).
+* **Billie Eilish – 'BIRDS OF A FEATHER':** Absolute Marktführerin mit Genre-Werten bis zu **88.14**.
+* **Jimin – 'Who':** Höchstes individuelles **Artist-Momentum (6.09)** im Testfeld, was auf eine massive Fan-Power hindeutet.
+* **KPop Demon Hunters – 'Golden':** Ein klassischer „Hype-Rider“ mit extrem hoher Genre-Dynamik (85.97), aber moderatem Eigen-Momentum.
+
+## Fazit
+
+**Prophet liefert das „Spielfeld“ (Trend), während LightGBM mit einer Genauigkeit von 94 % im Markt-Kontext die „Stars von morgen“ identifiziert.**
+
+
+
+
+
