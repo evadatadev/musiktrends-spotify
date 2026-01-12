@@ -12,6 +12,9 @@ plotly
 
 # Machine Learning und Skalierung
 scikit-learn
+holidays
+cmdstanpy
+prophet
 
 # Laden des Kaggle Datensatzes
 kagglehub
