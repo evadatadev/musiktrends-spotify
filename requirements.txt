@@ -17,6 +17,7 @@ cmdstanpy
 prophet
 lightgbm
 shap
+joblib
 
 # Laden des Kaggle Datensatzes
 kagglehub
