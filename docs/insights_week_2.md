@@ -58,7 +58,7 @@ Die aktuelle Vorhersage zeigt eine Dominanz von Titeln mit einer Aufstiegswahrsc
 * **Jimin – 'Who':** Höchstes individuelles **Artist-Momentum (6.09)** im Testfeld, was auf eine massive Fan-Power hindeutet.
 * **KPop Demon Hunters – 'Golden':** Ein klassischer „Hype-Rider“ mit extrem hoher Genre-Dynamik (85.97), aber moderatem Eigen-Momentum.
 
-## Fazit
+## 6. Fazit der Analyse
 
 * **Prophet** liefert das „Spielfeld“ und sagt globale Markttrends mit einer Genauigkeit von 94 % (MAPE: 0,06) voraus.
 
@@ -66,7 +66,21 @@ Die aktuelle Vorhersage zeigt eine Dominanz von Titeln mit einer Aufstiegswahrsc
 
 &rarr; Die Kombination ermöglicht es, individuelle Künstler-Erfolge (Mikro-Ebene) immer im Kontext der allgemeinen Marktdynamik (Makro-Ebene) zu bewerten.
 
+# Software-Architektur (ML Engineering)
+## 1. Technische Transition
 
+Um die Analyse-Ergebnisse in ein interaktives Dashboard (Woche 3) zu überführen, wurde das Projekt in dieser Phase von einer experimentellen Notebook-Umgebung in eine produktionsreife Struktur überführt:
 
+* **Modell-Serialisierung:** Die "Gehirne" der Analyse wurden als Artefakte gesichert. Das Prophet-Modell wurde aufgrund der besseren Portabilität als JSON exportiert, das LightGBM-Modell inklusive aller Metadaten als binärer Booster.
+
+* **Pipeline-Modularisierung:** Erstellung einer dedizierten Inferenz-Logik (src/predict_pipeline.py). Diese führt den Makro-Trend (Prophet) und die Mikro-Klassifizierung (LightGBM) automatisiert zusammen.
+
+* **API-Integration:** Implementierung eines robusten Spotify-Clients mit Batch-Verarbeitung und OAuth2-Authentifizierung zur Echtzeit-Anreicherung manueller Chart-Downloads.
+
+* **Containerisierung:** Aufbau einer Docker-Umgebung (Debian-basiert), die alle mathematischen Abhängigkeiten (wie libgomp1 für LightGBM) isoliert und eine konsistente Ausführung zwischen Entwicklung und Deployment garantiert.
+
+## 2. Fazit der Transition
+
+Das Projekt ist nun technologisch so aufgestellt, dass neue Chart-Daten per "Plug-and-Play" eingespielt werden können, um sofortige KI-Trendberichte zu generieren.
 
 
