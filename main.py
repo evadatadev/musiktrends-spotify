@@ -1,3 +1,10 @@
+def main():
+    print("Dieses Script wird aktuell nicht verwendet. Die Hauptlogik läuft über app.py.")
+
+if __name__ == "__main__":
+    main()
+
+"""
 import os
 import pandas as pd
 
@@ -79,4 +86,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
+
+"""
