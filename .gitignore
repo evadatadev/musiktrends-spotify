@@ -22,6 +22,10 @@ venv/
 data/
 !data/.gitkeep
 
+# Modelle sicher hochladen
+!models/*.json
+!models/*.txt
+
 # Docker
 .dockerignore
 
