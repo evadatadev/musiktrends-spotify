@@ -22,8 +22,8 @@ Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten. Dazu w
 - Abruf von Metadaten über die Spotify Web API (Fokus auf Artist-Metrics & Genres)
 - Feature Engineering (Genre Popularity Index, Artist Growth Rate, Seasonality Score)
 - Zeitreihen‑Forecasts (Prophet)
-- Klassifikation von „Rising Artists“ (Random Forest)
-- Interaktives Dashboard (Plotly Dash)
+- Klassifikation von „Rising Artists“ (LightGBM)
+- Interaktives Dashboard (Streamlit)
 - Automatisch generierte Trendberichte (LLM‑Integration)
 - Vollständig reproduzierbar via Docker
 
@@ -73,7 +73,8 @@ musiktrends-spotify/
 - Prophet  
  
 ### **Klassifikation**
-- Random Forest  
+- Random Forest (nur in der Entwicklungsumgebung)
+- LightGBM 
 
 ---
 
@@ -87,22 +88,13 @@ Das interaktive Dashboard zeigt:
 ---
 
 ## 🐳 Docker Setup
-### Container starten & bauen
-```
-docker compose up --build
-```
-
-### Run (Jupyter Notebook)
-Sobald der Container läuft, findet sich das Projekt unter:
-```
-https://localhost:8888
-```
-## 🐳 Docker Setup
 
 Dieses Projekt nutzt Docker, um eine konsistente Entwicklungsumgebung bereitzustellen. Dank **Docker Compose** werden alle Code-Änderungen auf deinem lokalen Rechner (Desktop) sofort mit dem Container synchronisiert, sodass du direkt im Browser arbeiten kannst.
 
 ### Voraussetzungen
+
 * [Docker Desktop](https://www.docker.com/products/docker-desktop/) installiert und gestartet.
+* Eine `.env`-Datei im Hauptverzeichnis mit deinen API-Credentials (siehe `.env.example`).
 
 ### Container bauen & starten
 
@@ -110,17 +102,22 @@ Dieses Projekt nutzt Docker, um eine konsistente Entwicklungsumgebung bereitzust
 ```
 docker compose up --build
 ```
+
 ### Im Browser arbeiten 
 
-Sobald der Container läuft, kannst du Jupyter Notebook unter folgender Adresse öffnen:
-👉 [http://localhost:8888](http://localhost:8888)
+Sobald der Container läuft, sind folgende Dienste verfügbar:
 
-### Beenden 
+| Dienst | URL | Zweck |
+|---------|---------|---------|
+| 📊 Dashboard | [http://localhost:8501](http://localhost:8501) | Interaktive Visualisierung mit Streamlit |
+| 📓 Jupyter | [http://localhost:8888](http://localhost:8888) | Exploration & Modellierung in Notebooks |
 
-Um den Container zu stoppen, drücke Strg + C im Terminal oder nutze:
-```
-docker compose down
-```
+### Wichtige Befehle
+
+* **Hintergrund-Modus:** ```docker compose up -d``` (Terminal bleibt frei).
+* **Logs einsehen:** ```docker compose logs -f``` (hilfreich bei Fehlern).
+* **Stoppen:** ```docker compose down``` (beendet beide Dienste).
+* **Aufräumen:** ```docker image prune -f``` (entfernt veraltete Image-Versionen).
 
 ---
 
