@@ -62,7 +62,13 @@ def run_prediction_pipeline(df):
     if "ds" not in df.columns:
         raise ValueError("Spalte 'ds' fehlt. Bitte chart_week → ds konvertieren.")
 
-    forecast = prophet_model.predict(df[["ds"]])
+    required_regressors = ["genre_idx_lagged", "seasonality_score"]
+    missing = [col for col in required_regressors if col not in df.columns]
+
+    if missing:
+        raise ValueError(f"Fehlende Prophet‑Regressoren: {missing}.")
+    
+    forecast = prophet_model.predict(df[["ds", "genre_idx_lagged", "seasonality_score"]])
     df["prophet_trend"] = forecast["trend"].values
 
     # LightGBM: Features vorbereiten

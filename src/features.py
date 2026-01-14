@@ -95,6 +95,11 @@ def build_features(df):
     else:
         df["seasonality_score"] = 1.0
 
+    # Prophet‑Regressor: genre_idx_lagged (Lag des Genre‑Index)
+    df = df.sort_values("chart_week")
+    df["genre_idx_lagged"] = df["genre_pop_idx"].shift(1)
+    df["genre_idx_lagged"] = df["genre_idx_lagged"].fillna(method="bfill")
+
     return df
 
 # ____ TRENDBERICHT ____
