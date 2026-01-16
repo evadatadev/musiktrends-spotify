@@ -86,7 +86,7 @@ if uploaded_file is None:
 # ------------------------------------------------------------ 
 # Datei speichern 
 # ------------------------------------------------------------
-temp_path = RAW_DIR / uploaded_file.name
+temp_path = INTERIM_DIR / uploaded_file.name
 
 with open(temp_path, "wb") as f:
     f.write(uploaded_file.getbuffer())
@@ -99,7 +99,11 @@ st.caption(f"Speicherort: `{temp_path}`")
 # ------------------------------------------------------------
 st.subheader("🔍 Titel & Künstler automatisch erkennen")
 
-unique_path, date_str = prepare_unique_tracks(temp_path)
+unique_path, date_str = prepare_unique_tracks(
+    input_path=temp_path, 
+    processed_dir=PROCESSED_DIR, 
+    output_dir=INTERIM_DIR
+)
 
 st.success(f"Titel und Künstler wurden erkannt und gespeichert.")
 st.caption(f"Speicherort: `{unique_path}`")
@@ -119,14 +123,19 @@ if st.button("🎧 Spotify-Infos laden"):
             output_dir=INTERIM_DIR
         )
     st.success("Die Titel wurden erfolgreich mit Spotify-Infos angereichert.")
+    st.dataframe(df_enriched.head()) 
 
+    # ------------------------------------------------------------ 
+    # Schritt 3: Merge: Charts + enriched_data + Historie 
+    # ------------------------------------------------------------
+    
     df_final = merge_new_data(
-        ids_csv=INTERIM_DIR / f"unique_tracks_with_ids_{date_str}.csv",
-        enriched_csv=INTERIM_DIR / f"enriched_data_{date_str}.csv",
-        hist_path= PROCESSED_DIR / "final_data_with_metadata.csv",
-        output_path=INTERIM_DIR / f"merged_enriched_{date_str}.csv",
-        backup_dir=BACKUP_DIR,
-        cleanup_days=180
+        charts_csv=PROCESSED_DIR / f"regional_global_weekly_{date_str}.csv", 
+        enriched_csv=INTERIM_DIR / f"enriched_data_{date_str}.csv", 
+        date_str=date_str, 
+        processed_dir=PROCESSED_DIR, 
+        hist_path=PROCESSED_DIR / "hist_data_24-25.csv", 
+        backup_dir=BACKUP_DIR
     )
 
     st.success("Die neuen Daten wurden erfolgreich mit der Historie verbunden.")
@@ -135,7 +144,7 @@ if st.button("🎧 Spotify-Infos laden"):
     st.dataframe(df_final.head())
     
     # -------------------------------------------------------- 
-    # Schritt 3: Feature Engineering 
+    # Schritt 4: Feature Engineering 
     # -------------------------------------------------------- 
     st.header("🧠 Daten verarbeiten")
     st.subheader("🧩 Merkmale berechnen") 
@@ -146,7 +155,7 @@ if st.button("🎧 Spotify-Infos laden"):
     st.success("Die Daten wurden erfolgreich aufbereitet.")
 
     # -------------------------------------------------------- 
-    # Schritt 4: Prediction Pipeline 
+    # Schritt 5: Prediction Pipeline 
     # -------------------------------------------------------- 
     st.subheader("🤖 KI‑Vorhersage starten") 
     

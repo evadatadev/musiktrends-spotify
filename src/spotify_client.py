@@ -139,16 +139,17 @@ class SpotifyClient:
         self,
         unique_tracks_csv,
         date_str, 
-        output_dir="data/interim"
+        output_dir
     ):
         """
         Führt den gesamten Prozess aus: 
         1. IDs mappen
         2. Enrichment durchführen
         """
-    
-        mapped_csv = f"{output_dir}/unique_tracks_with_ids_{date_str}.csv" 
-        enriched_csv = f"{output_dir}/enriched_data_{date_str}.csv" 
+        output_dir = Path(output_dir)
+        
+        mapped_csv = output_dir / f"unique_tracks_with_ids_{date_str}.csv" 
+        enriched_csv = output_dir / f"enriched_data_{date_str}.csv" 
         
         df_ids = self.map_spotify_ids(unique_tracks_csv, mapped_csv) 
         df_enriched = self.enrich_tracks(mapped_csv, enriched_csv) 
