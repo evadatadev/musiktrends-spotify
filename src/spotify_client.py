@@ -3,6 +3,7 @@ import time
 import pandas as pd
 from tqdm import tqdm
 from dotenv import load_dotenv
+from pathlib import Path
 
 from .spotify_utils import (
     refresh_access_token,
