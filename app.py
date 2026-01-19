@@ -86,13 +86,21 @@ if uploaded_file is None:
 # ------------------------------------------------------------ 
 # Datei speichern 
 # ------------------------------------------------------------
+# Ursprungsdatei ohne Änderung in raw
+raw_path / uploaded_file.name
+
+with open(raw_path, "wb") as f: 
+    f.write(uploaded_file.getbuffer())
+
+# Zur Weiterverarbeitung in interim
 temp_path = INTERIM_DIR / uploaded_file.name
 
 with open(temp_path, "wb") as f:
     f.write(uploaded_file.getbuffer())
 
 st.success(f"Datei wurde erfolgreich hochgeladen.")
-st.caption(f"Speicherort: `{temp_path}`")
+st.caption(f"Speicherort der Originaldatei: `{raw_path}`")
+st.caption(f"Speicherort für Weiterverarbeitung: `{temp_path}`")
 
 # ------------------------------------------------------------ 
 # Schritt 1: Unique Tracks extrahieren 
