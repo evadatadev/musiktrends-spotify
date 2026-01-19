@@ -86,8 +86,11 @@ if uploaded_file is None:
 # ------------------------------------------------------------ 
 # Datei speichern 
 # ------------------------------------------------------------
+# Dateiname für raw_ "_origin" anhängen
+origin_name = f"{uploaded_file.stem}_origin{uploaded_file.suffix}"
+
 # Ursprungsdatei ohne Änderung in raw
-raw_path / uploaded_file.name
+raw_path / origin_name
 
 with open(raw_path, "wb") as f: 
     f.write(uploaded_file.getbuffer())
