@@ -19,8 +19,17 @@ venv/
 */.ipynb_checkpoints/*
 
 # Daten-Management
-data/
-!data/.gitkeep
+## Ignoriere alle Dateien in diesen Ordnern
+data/backups/**
+data/interim/**
+data/processed/**
+data/raw/**
+
+## Erlaube aber die .gitkeep Dateien, damit die Ordner auf GitHub existieren
+!data/**/.gitkeep
+
+## Erlaube explizit CSV-Dateien in allen Unterordnern
+!data/**/*.csv
 
 # Modelle sicher hochladen
 !models/*.json
