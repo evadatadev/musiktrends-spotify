@@ -28,7 +28,7 @@ st.markdown("""
 # Elevator Pitch
 # ------------------------------------------------------------
 st.markdown("""
-## 🚀 Elevator Pitch
+## 🚀 Warum dieses Projekt wichtig ist
 
 **Musik wird heute von Daten gesteuert.** Streaming‑Plattformen wie Spotify prägen, welche Künstler sichtbar werden und welche Trends sich durchsetzen. Mit **„Musiknutzungs‑Trends & KI‑basierte Vorhersagen“** entsteht ein vollständiges Data‑Science‑Ökosystem, das diese Dynamiken analysiert, erklärt und vorhersagbar macht.
 
@@ -61,7 +61,7 @@ st.markdown("""
 ### 🤖 Modellierung
 - Erweiterung der Datenbasis über die Spotify Web API (Genres, Popularität, Follower)  
 - Zeitreihen‑Forecasts für Playcounts (**Prophet**)  
-- Klassifikations‑ und Boosting‑Modelle zur Identifikation von **Rising Artists** (LightGBM)
+- Klassifikationsmodelle auf Basis von Gradient‑Boosting (LightGBM) zur Identifikation von **Rising Artists**
 """)
 
 # ------------------------------------------------------------
@@ -74,14 +74,25 @@ Ein interaktives Dashboard zeigt:
 - Zentrale Muster & Dynamiken
 
 Der Rising Artist Radar kombiniert:
-- Heatmaps  
-- Forecast‑Kurven  
-- KPIs  
-- automatisch generierte Trendberichte (Gemini‑API)
+- KPIs
+- Genre Trend Heatmap
+- TOP 10 Rising Artists
+- Song-spezifischer Probability-Forecast 
+- Automatisch generierte Trendberichte (Gemini‑API)
 
 Das gesamte Projekt läuft reproduzierbar in Docker und ist vollständig auf GitHub dokumentiert – inklusive Code, Pipelines, Modellen und Dashboard.
 """)
 
 st.markdown("---")
 
-st.info("👉 Nutze die Navigation links, um zur Analyse oder zum Rising Artist Radar zu wechseln.")
+st.info("👉 Nutzen Sie die Navigation links, um zur Analyse oder zum Rising Artist Radar zu wechseln.")
+
+
+st.markdown(
+    """
+    <div style='text-align: center; margin-top: 50px; color: gray; font-size: 12px;'>
+        © Eva Wolff Fabris · 23. Januar 2026 · Musiktrends vorhersagen und verstehen · Alle Rechte vorbehalten.
+    </div>
+    """,
+    unsafe_allow_html=True
+)
