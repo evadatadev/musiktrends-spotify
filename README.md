@@ -6,19 +6,19 @@
 ## 📅 Roadmap (Aktueller Stand des Projekts)
 - [x] Woche 1: CSV‑Daten + Exploration  
 - [x] Woche 2: API‑Daten + Modellierung  
-- [ ] Woche 3: Dashboard + Storytelling
+- [x] Woche 3: Dashboard + Storytelling
 
 ---
 
 ## 📌 Projektübersicht
 Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten. Dazu werden **Charts‑CSVs**, **Spotify Web API‑Metadaten**, **Feature Engineering**, **Forecast‑Modelle** und ein **Plotly‑Dashboard** kombiniert. Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projekt**, das Daten, KI und Storytelling verbindet.
 
-💡 **Technical Note:** Aufgrund von API-Einschränkungen bei Spotify Ende 2024 (Einstellung des freien Zugriffs auf audio-features) wurde das Feature Engineering gezielt auf Artist-Metadaten und Genre-Trends umgestellt. Es hat sich gezeigt, dass Fanbase-Metriken (Follower) und Genre-Cluster stabilere Prädiktoren für Charterfolge sind als rein akustische Merkmale.
+**Technical Note:** Aufgrund von API-Einschränkungen bei Spotify Ende 2024 (Einstellung des freien Zugriffs auf audio-features) wurde das Feature Engineering gezielt auf Artist-Metadaten und Genre-Trends umgestellt. Es hat sich gezeigt, dass Fanbase-Metriken (Follower) und Genre-Cluster stabilere Prädiktoren für Charterfolge sind als rein akustische Merkmale.
 
 ---
 
 ## 🚀 Features
-- Analyse von Spotify‑Charts (CSV‑Daten)
+- Analyse von Spotify-Charts (CSV‑Daten)
 - Abruf von Metadaten über die Spotify Web API (Fokus auf Artist-Metrics & Genres)
 - Feature Engineering (Genre Popularity Index, Artist Growth Rate, Seasonality Score)
 - Zeitreihen‑Forecasts (Prophet)
@@ -37,6 +37,7 @@ musiktrends-spotify/
 ├── docs/          # Dokumentation, Diagramme, Berichte
 ├── models/        # Modelle (Prophet, LightGBM)
 ├── notebooks/     # Jupyter Notebooks für Exploration & Modellierung
+├── pages/	   # Unterseiten der Streamlit-App
 ├── src/           # Python-Module (Pipelines, Modelle, Utils)
 │
 ├── .gitignore
@@ -45,12 +46,13 @@ musiktrends-spotify/
 ├── .streamlit/
 │   └── config.toml
 │
-├── app.py
+├── Home.py
 ├── docker-compose.yml
 ├── Dockerfile
 ├── LICENSE
 ├── README.md
-└── requirements.txt
+├── requirements.txt
+└── Projekt-Praesentation.pdf
 ```
 
 ---
@@ -79,7 +81,7 @@ musiktrends-spotify/
 
 ### **Spotify Web API**
 - Künstler-Metadaten
-- ~~ Audio‑Features ~~ (Ersetzt durch erweiterte Artist-Metriken, siehe Note oben)
+- ~~ Audio‑Features ~~ (Ersetzt durch erweiterte Artist-Metriken, siehe Hinweis oben)
 - Popularität & Follower
 - Genre-Informationen
 
@@ -165,4 +167,3 @@ MIT License
 
 ## 🤝 Mitwirken
 Pull Requests und Issues sind willkommen.
-
