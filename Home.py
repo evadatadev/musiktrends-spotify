@@ -80,7 +80,7 @@ Der Rising Artist Radar kombiniert:
 - Song-spezifischer Probability-Forecast 
 - Automatisch generierte Trendberichte (Gemini‑API)
 
-Das gesamte Projekt läuft reproduzierbar in Docker und ist vollständig auf GitHub dokumentiert – inklusive Code, Pipelines, Modellen und Dashboard.
+Das gesamte Projekt läuft reproduzierbar in Docker und ist vollständig auf GitHub unter 'https://github.com/testdsi25-hub/musiktrends-spotify' dokumentiert – inklusive Code, Pipelines, Modellen und Dashboard.
 """)
 
 st.markdown("---")
