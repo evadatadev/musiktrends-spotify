@@ -26,5 +26,6 @@ python-dotenv
 requests
 tqdm
 google-genai>=0.3.0
+
 # Entwicklung
 jupyter 
