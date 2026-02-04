@@ -11,7 +11,7 @@
 ---
 
 ## 📌 Projektübersicht
-Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten. Dazu werden **Charts‑CSVs**, **Spotify Web API‑Metadaten**, **Feature Engineering**, **Forecast‑Modelle** und ein **Plotly‑Dashboard** kombiniert. Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projekt**, das Daten, KI und Storytelling verbindet.
+Dieses Projekt untersucht Musiknutzungstrends anhand von Spotify‑Daten. Dazu werden **Charts‑CSVs**, **Spotify Web API‑Metadaten**, **Feature Engineering**, **Forecast‑Modelle** und ein **Streamlit‑Dashboard** kombiniert. Ziel ist ein vollständiges **End‑to‑End Data‑Science‑Portfolio‑Projekt**, das Daten, KI und Storytelling verbindet.
 
 **Technical Note:** Aufgrund von API-Einschränkungen bei Spotify Ende 2024 (Einstellung des freien Zugriffs auf audio-features) wurde das Feature Engineering gezielt auf Artist-Metadaten und Genre-Trends umgestellt.
 
